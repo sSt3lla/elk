@@ -1,0 +1,3 @@
+let f = function(x, ytrue) {  };
+
+f(0);

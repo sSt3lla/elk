@@ -1,0 +1,4 @@
+let f = function(x, y) {  };f = function(x, y) {  };
+
+
+f(0);•

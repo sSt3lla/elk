@@ -1,0 +1,3 @@
+let f = function(x, yG) {  }?
+
+f(1);

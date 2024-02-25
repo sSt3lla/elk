@@ -789,11 +789,22 @@ static jsval_t do_op(struct js *js, uint8_t op, jsval_t lhs, jsval_t rhs) {
     case TOK_TYPEOF:  return js_mkstr(js, typestr(vtype(r)), strlen(typestr(vtype(r))));
     case TOK_CALL:    return do_call_op(js, l, r);
     case TOK_ASSIGN:  return assign(js, lhs, r);
-    case TOK_POSTINC: { do_assign_op(js, TOK_PLUS_ASSIGN, lhs, tov(1)); return l; }
-    case TOK_POSTDEC: { do_assign_op(js, TOK_MINUS_ASSIGN, lhs, tov(1)); return l; }
+    case TOK_POSTINC: {
+                      if (vtype(lhs) != T_OBJ && vtype(lhs) != T_CODEREF) return js_mkerr(js, "bad lhs");
+                        do_assign_op(js, TOK_PLUS_ASSIGN, lhs, tov(1));
+                        return l;
+                      }
+    case TOK_POSTDEC: {
+                      if (vtype(lhs) != T_OBJ && vtype(lhs) != T_CODEREF) return js_mkerr(js, "bad lhs");                          
+                        do_assign_op(js, TOK_MINUS_ASSIGN, lhs, tov(1));
+                        return l;
+                      }
     case TOK_NOT:     if (vtype(r) == T_BOOL) return mkval(T_BOOL, !vdata(r)); break;
   }
-  if (is_assign(op))    return do_assign_op(js, op, lhs, r);
+  if (is_assign(op)) {
+    if (vtype(lhs) == T_OBJ || vtype(lhs) == T_CODEREF) return do_assign_op(js, op, lhs, r);
+    else return js_mkerr(js, "bad lhs");
+  }
   if (vtype(l) == T_STR && vtype(r) == T_STR) return do_string_op(js, op, l, r);
   if (is_unary(op) && vtype(r) != T_NUM) return js_mkerr(js, "type mismatch");
   if (!is_unary(op) && op != TOK_DOT && (vtype(l) != T_NUM || vtype(r) != T_NUM)) return js_mkerr(js, "type mismatch");

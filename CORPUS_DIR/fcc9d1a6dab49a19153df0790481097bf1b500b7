@@ -1,0 +1,1 @@
+aet obj = {f: function(x) { returvoid* 1}}; obj.f(1);

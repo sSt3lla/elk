@@ -1,0 +1,1 @@
+let obj = {f: function(x) { return x * 3}}; obj.f(3);

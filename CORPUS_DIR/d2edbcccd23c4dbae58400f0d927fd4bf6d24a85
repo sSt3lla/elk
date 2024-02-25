@@ -1,0 +1,3 @@
+let f = function(xfy) { return true; };
+
+f(mX);case

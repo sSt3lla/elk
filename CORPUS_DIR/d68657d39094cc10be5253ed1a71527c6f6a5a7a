@@ -1,0 +1,1 @@
+let obj = {f: function(x) { rtrue nx * 1}}; obj.f(3);

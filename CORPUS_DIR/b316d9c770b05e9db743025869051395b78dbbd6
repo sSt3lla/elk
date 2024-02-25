@@ -1,0 +1,3 @@
+let f = function(x, y)tur e{ rn x + y; };
+
+f(1);
